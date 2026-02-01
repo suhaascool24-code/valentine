@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💖</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #ffe6ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* 💕 Floating hearts background */
+  .heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 18px;
+    animation: floatUp linear infinite;
+    opacity: 0.7;
+  }
+
+  @keyframes floatUp {
+    from {
+      transform: translateY(0);
+      opacity: 0.8;
+    }
+    to {
+      transform: translateY(-110vh);
+      opacity: 0;
+    }
+  }
+
+  .card {
+    background: white;
+    width: 90%;
+    max-width: 360px;
+    padding: 28px 22px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 25px 45px rgba(0,0,0,0.25);
+    z-index: 10;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-bottom: 22px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    position: relative;
+  }
+
+  button {
+    padding: 12px 26px;
+    font-size: 15px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+
+  #yes {
+    background: #ff4d6d;
+    color: white;
+  }
+
+  #yes:hover {
+    transform: scale(1.1);
+  }
+
+  #no {
+    background: #e0e0e0;
+    position: relative;
+  }
+
+  /* 🎥 Video BELOW card */
+  video {
+    width: 90%;
+    max-width: 360px;
+    margin-top: 18px;
+    border-radius: 20px;
+    display: none;
+    z-index: 5;
+  }
+
+  /* 🎉 Confetti */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    width: 10px;
+    height: 10px;
+    opacity: 0.85;
+    animation: fall linear forwards;
+    z-index: 999;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+  <h2 id="text">Sweety, will you be my Valentine? 💖</h2>
+  <div class="buttons">
+    <button id="yes">Yes 💕</button>
+    <button id="no">No 🙈</button>
+  </div>
+</div>
+
+<video id="bgVideo" muted loop playsinline>
+  <source src="video.mp4?v=6" type="video/mp4">
+</video>
+
+<script>
+  const noBtn = document.getElementById("no");
+  const yesBtn = document.getElementById("yes");
+  const video = document.getElementById("bgVideo");
+  const text = document.getElementById("text");
+
+  /* 😈 NO button never stops */
+  function moveNoButton() {
+    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+  }
+
+  noBtn.addEventListener("mouseenter", moveNoButton);
+  noBtn.addEventListener("click", moveNoButton);
+  noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moveNoButton();
+  });
+
+  /* 🎉 Confetti */
+  function launchConfetti() {
+    const colors = ["#ff4d6d", "#ffb703", "#ffd6e0", "#ff006e", "#8338ec"];
+    for (let i = 0; i < 120; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.style.left = Math.random() * window.innerWidth + "px";
+      confetti.style.backgroundColor =
+        colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDuration =
+        Math.random() * 3 + 2 + "s";
+
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 5000);
+    }
+  }
+
+  /* 💕 Floating hearts generator */
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.animationDuration = Math.random() * 6 + 6 + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 12000);
+  }
+
+  setInterval(createHeart, 700);
+
+  /* YES button */
+  yesBtn.addEventListener("click", () => {
+    launchConfetti();
+    video.style.display = "block";
+    video.play();
+    text.innerHTML = "YAYYYY 💖🥰<br>You made my day!";
+  });
+</script>
+
+</body>
+</html>
