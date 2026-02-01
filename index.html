@@ -77,9 +77,9 @@
 
 <body>
 
-  <video autoplay muted loop playsinline>
-    <source src="video.mp4" type="video/mp4">
-  </video>
+  <video id="bgVideo" muted loop playsinline style="display:none;">
+  <source src="video.mp4" type="video/mp4">
+</video>
 
   <div class="card">
     <h2>Sweety, will you be my Valentine? 💖</h2>
@@ -90,14 +90,28 @@
   </div>
 
   <script>
-    const noBtn = document.getElementById("no");
+  const noBtn = document.getElementById("no");
+  const yesBtn = document.getElementById("yes");
+  const video = document.getElementById("bgVideo");
 
-    noBtn.addEventListener("mouseenter", () => {
-      const x = Math.random() * 250 - 125;
-      const y = Math.random() * 250 - 125;
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    });
-  </script>
+  // No button runs away 😈
+  noBtn.addEventListener("mouseenter", () => {
+    const x = Math.random() * 250 - 125;
+    const y = Math.random() * 250 - 125;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  });
+
+  // YES button → show & play video 💖
+  yesBtn.addEventListener("click", () => {
+    video.style.display = "block";
+    video.play();
+
+    document.querySelector(".card").innerHTML = `
+      <h2>YAYYY!! 💖🥰</h2>
+      <p>You just made my day 💕</p>
+    `;
+  });
+</script>
 
 </body>
 </html>
